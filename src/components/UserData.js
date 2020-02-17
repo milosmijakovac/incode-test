@@ -34,12 +34,12 @@ class UserData extends Component {
   };
   handleOnClickBackId = () => {
     const paragraphInput = document.querySelector(".back");
-
     paragraphInput.classList.toggle("visible");
   };
 
   fetchResult = async () => {
-    let {imgFront, imgBack} = this.state;
+    let { imgFront, imgBack } = this.state;
+
     let headersConfig = {
       "Content-Type": "application/json",
       "api-version": "1.0",
@@ -84,8 +84,6 @@ class UserData extends Component {
 
     let res = axios(config);
     res.then(res => console.log(res));
-
-    
   };
 
   handleSubmit = e => {
@@ -116,7 +114,6 @@ class UserData extends Component {
 
     let classes = "send-sms";
     classes += phone.length >= 7 ? " btn-blue" : "";
-    console.log(classes);
 
     return (
       <div className="user-data">
@@ -143,7 +140,9 @@ class UserData extends Component {
                 id="back-id"
                 onClick={this.handleOnClickBackId}
               >
-                <ImageDropBack handleImageBack={imgBack => this.handleImageBack(imgBack)} />
+                <ImageDropBack
+                  handleImageBack={imgBack => this.handleImageBack(imgBack)}
+                />
               </div>
             </div>
             <button className={classes} type="submit" disabled={disabled}>

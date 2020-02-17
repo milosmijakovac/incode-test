@@ -31,10 +31,6 @@ class ImageDropFront extends Component {
     }
   };
 
- 
-
- 
-
   handleOnDrop = (files, rejectedFiles) => {
     if (rejectedFiles && rejectedFiles.length > 0) {
       // console.log(rejectedFiles);
@@ -49,8 +45,8 @@ class ImageDropFront extends Component {
         myFileItemReader.addEventListener(
           "load",
           () => {
-            this.setState({ imgSrcFront: myFileItemReader.result }, () =>{
-              this.props.handleImageFront(this.state.imgSrcFront)
+            this.setState({ imgSrcFront: myFileItemReader.result }, () => {
+              this.props.handleImageFront(this.state.imgSrcFront);
             });
           },
           false
@@ -61,7 +57,7 @@ class ImageDropFront extends Component {
   };
   render() {
     const { imgSrcFront } = this.state;
-console.log(imgSrcFront);
+    console.log(imgSrcFront);
     return (
       <Dropzone
         onDrop={this.handleOnDrop}
