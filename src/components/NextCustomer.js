@@ -11,7 +11,7 @@ function NextCustomer() {
           The customer will receive an SMS to complete the onboarding
         </p>
       </div>
-      <button class="next-customer-btn"><Link to="/">NEXT CUSTOMER</Link></button>
+      <button className="next-customer-btn"><Link to="/">NEXT CUSTOMER</Link></button>
     </div>
   );
 }
