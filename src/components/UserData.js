@@ -10,7 +10,6 @@ import {
   CLIENT_SPECIFIC_KEY,
   TOKEN,
   FINISH_THIRD_PARTY,
-  ONBOARDING_URL,
   SEND_SMS
 } from "../config";
 import axios from "axios";
@@ -78,7 +77,7 @@ class UserData extends Component {
       "Content-Type": "image/jpeg",
       "api-version": "1.0",
       "x-api-key": CLIENT_SPECIFIC_KEY,
-      "X-Incode-Hardware-Id": TOKEN
+      "X-Incode-Hardware-Id": this.state.token
     };
 
     let headersConfigThirdParty = {
@@ -117,9 +116,7 @@ class UserData extends Component {
       method: "post",
       mode: "cors",
       url: `${API_URL}${BACK_ID}`,
-      data: {
-        imgBack
-      },
+      file: imgBack,
       headers: headersConfigImage
     };
 
@@ -151,13 +148,13 @@ class UserData extends Component {
         params: onboarding
       });
 
-      // if(this.state.imgFront !== "") {
-      //   await axios(configImageFront);
-      // }
+      if(this.state.imgFront !== "") {
+        await axios(configImageFront);
+      }
 
-      // if(this.state.imgBack !== "") {
-      //   await axios(configImageBack);
-      // }
+      if(this.state.imgBack !== "") {
+        await axios(configImageBack);
+      }
 
       let respNotifySms = await axios(configNotifySendSms);
       console.log(respNotifySms);
