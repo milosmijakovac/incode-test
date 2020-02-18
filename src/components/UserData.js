@@ -147,8 +147,6 @@ class UserData extends Component {
       let respThirdParty = await axios(configFinishThirdParty);
       let onboarding = [respThirdParty.data.onboardingUrl];
 
-      
-
       this.setState({
         params: onboarding
       });
@@ -168,20 +166,6 @@ class UserData extends Component {
     } catch (error) {
       alert("SERVERSKA GRESKA");
     }
-
-    // console.log(respPhone.data.success);
-
-    // let respImgFront  = await axios(configImageFront);
-    // let respImgBack  = await axios(configImageBack);
-
-    // let respThirdParty = await axios(configFinishThirdParty)
-    // let onboarding = [respThirdParty.data.onboardingUrl]
-
-    // this.setState({
-    //   params: onboarding
-    // });
-    // let respNotifySms  = await axios(configNotifySendSms)
-    // console.log(respNotifySms);
   };
 
   handleSubmit = e => {

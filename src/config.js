@@ -7,6 +7,8 @@ const FINISH_THIRD_PARTY = "omni/third-party/finish?clientId=";
 const SEND_SMS = "omni/notify/send-sms";
 const CLIENT_SPECIFIC_KEY = "d71a6830478b9f04f221fd9c1f30df34cdf3da71";
 
+
+// MOCK DATA
 const ONBOARDING_URL =
   "http://localhost:5010/omni/start/incodetest/partial/569fc2e4-6208-41f4-85d4-2824b85c6111";
 
