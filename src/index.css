@@ -1,3 +1,10 @@
+:root {
+  --lightBlue: #00b2fd;
+  --lightGrey: #cccccc;
+  --darkBlue: #20263d;
+  --white: #ffffff;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -8,11 +15,11 @@ body {
 a:link,
 a:visited {
   text-decoration: none;
-  color: #fff;
+  color: var(--white);
 }
 
 .btn-blue {
-  background-color: #00b2fd !important; 
+  background-color: var(--lightBlue) !important; 
 }
 
 header {
@@ -23,7 +30,7 @@ header {
   padding-bottom: 54px;
   padding-left: 50px;
   padding-right: 96px;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid var(--lightGrey);
 }
 
 header .logo-wrp {
@@ -35,7 +42,7 @@ header .logo-wrp {
 
 header .devider {
   height: 70px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--lightGrey);
   margin-left: 29px;
   margin-right: 24px;
 }
@@ -47,17 +54,17 @@ header img {
 header span {
   font-family: sans-serif;
   font-size: 40px;
-  color: #20263d;
+  color: var(--darkBlue);
   font-weight: bold;
   align-self: flex-end;
   margin-right: auto;
 }
 
 header .logout {
-  color: #ccc;
+  color: var(--lightGrey);
   align-self: flex-end;
   border: none;
-  background-color: #fff;
+  background-color: var(--white);
   padding-bottom: 10px;
   font-size: 20px;
   font-weight: bold;
@@ -99,7 +106,7 @@ header .logout {
   border: none;
   border-radius: 50px;
   background-color: #cbcbcb;
-  color: #fff;
+  color: var(--white);
   padding: 20px 60px;
   font-size: 18px;
   font-weight: bold;
@@ -107,11 +114,11 @@ header .logout {
   outline: none;
 }
 .user-data .data-inputs .user-id p {
-  color: #20263d;
+  color: var(--darkBlue);
   font-size: 25px;
 }
 .user-data .data-inputs .user-id p span {
-  color: #20263d;
+  color: var(--darkBlue);
   opacity: 0.7;
   font-size: 18px;
 }
@@ -164,8 +171,8 @@ header .logout {
 .customer-wrapper .next-customer-btn {
   border: none;
   border-radius: 50px;
-  background-color: #00b2fd;
-  color: #fff;
+  background-color: var(--lightBlue);
+  color: var(--white);
   font-size: 18px;
   font-weight: bold;
   padding: 20px 30px;
@@ -188,7 +195,7 @@ header .logout {
 }
 
 .customer-wrapper .customer-info .sms-receive-info {
-  color: #20263d;
+  color: var(--darkBlue);
   font-size: 23px;
   margin: 0;
 }

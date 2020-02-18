@@ -8,7 +8,10 @@ import {
   FRONT_ID,
   BACK_ID,
   CLIENT_SPECIFIC_KEY,
-  TOKEN
+  TOKEN,
+  FINISH_THIRD_PARTY,
+  ONBOARDING_URL,
+  SEND_SMS
 } from "../config";
 import axios from "axios";
 
@@ -17,8 +20,32 @@ class UserData extends Component {
     phone: 0,
     disabled: true,
     imgFront: "",
-    imgBack: ""
+    imgBack: "",
+    token: "",
+    onboarding_url: "",
+    params: []
   };
+
+  async componentDidMount() {
+    let headersConfigStart = {
+      "Content-Type": "application/json",
+      "api-version": "1.0",
+      "x-api-key": CLIENT_SPECIFIC_KEY
+    };
+    const configStart = {
+      method: "post",
+      mode: "cors",
+      url: `${API_URL}${NEW_SESSION}`,
+      data: {
+        countryCode: "MX"
+      },
+      headers: headersConfigStart
+    };
+    let respStart = await axios(configStart);
+    this.setState({
+      token: respStart.data.token
+    });
+  }
 
   handleImageFront(imgSrcFromDropFront) {
     this.setState({ imgFront: imgSrcFromDropFront });
@@ -40,12 +67,13 @@ class UserData extends Component {
   fetchResult = async () => {
     let { imgFront, imgBack } = this.state;
 
-    let headersConfig = {
+    let headersConfigPhone = {
       "Content-Type": "application/json",
       "api-version": "1.0",
       "x-api-key": CLIENT_SPECIFIC_KEY,
-      "X-Incode-Hardware-Id": TOKEN
+      "X-Incode-Hardware-Id": this.state.token
     };
+
     let headersConfigImage = {
       "Content-Type": "image/jpeg",
       "api-version": "1.0",
@@ -53,26 +81,39 @@ class UserData extends Component {
       "X-Incode-Hardware-Id": TOKEN
     };
 
-    const config = {
+    let headersConfigThirdParty = {
+      "Content-Type": "application/json",
+      "api-version": "1.0",
+      "x-api-key": CLIENT_SPECIFIC_KEY,
+      "X-Incode-Hardware-Id": this.state.token
+    };
+
+    let headersConfigNotifySendSms = {
+      "Content-Type": "application/json",
+      "api-version": "1.0",
+      "x-api-key": CLIENT_SPECIFIC_KEY,
+      "X-Incode-Hardware-Id": this.state.token
+    };
+
+    const configPhone = {
       method: "post",
       mode: "cors",
       url: `${API_URL}${ADD_PHONE}`,
       data: {
         phone: "+3813234234"
       },
-      headers: headersConfig
+      headers: headersConfigPhone
     };
 
-    const config2 = {
+    const configImageFront = {
       method: "post",
       mode: "cors",
       url: `${API_URL}${FRONT_ID}`,
-      data: {
-        imgFront
-      },
+      file: imgFront,
+
       headers: headersConfigImage
     };
-    const config3 = {
+    const configImageBack = {
       method: "post",
       mode: "cors",
       url: `${API_URL}${BACK_ID}`,
@@ -82,8 +123,65 @@ class UserData extends Component {
       headers: headersConfigImage
     };
 
-    let res = axios(config);
-    res.then(res => console.log(res));
+    const configFinishThirdParty = {
+      method: "post",
+      mode: "cors",
+      url: `${API_URL}${FINISH_THIRD_PARTY}incodetest`,
+      data: {},
+      headers: headersConfigThirdParty
+    };
+    const configNotifySendSms = {
+      method: "post",
+      mode: "cors",
+      url: `${API_URL}${SEND_SMS}`,
+      data: {
+        smsType: "PARTIAL_ONBOARDING",
+        params: this.state.params
+      },
+      headers: headersConfigNotifySendSms
+    };
+
+    // let respPhone  = await axios(configPhone)
+    try {
+      await axios(configPhone);
+      let respThirdParty = await axios(configFinishThirdParty);
+      let onboarding = [respThirdParty.data.onboardingUrl];
+
+      
+
+      this.setState({
+        params: onboarding
+      });
+
+      // if(this.state.imgFront !== "") {
+      //   await axios(configImageFront);
+      // }
+
+      // if(this.state.imgBack !== "") {
+      //   await axios(configImageBack);
+      // }
+
+      let respNotifySms = await axios(configNotifySendSms);
+      console.log(respNotifySms);
+
+      this.props.history.push("/next-customer");
+    } catch (error) {
+      alert("SERVERSKA GRESKA");
+    }
+
+    // console.log(respPhone.data.success);
+
+    // let respImgFront  = await axios(configImageFront);
+    // let respImgBack  = await axios(configImageBack);
+
+    // let respThirdParty = await axios(configFinishThirdParty)
+    // let onboarding = [respThirdParty.data.onboardingUrl]
+
+    // this.setState({
+    //   params: onboarding
+    // });
+    // let respNotifySms  = await axios(configNotifySendSms)
+    // console.log(respNotifySms);
   };
 
   handleSubmit = e => {

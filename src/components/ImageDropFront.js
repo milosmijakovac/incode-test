@@ -57,7 +57,7 @@ class ImageDropFront extends Component {
   };
   render() {
     const { imgSrcFront } = this.state;
-    console.log(imgSrcFront);
+    // console.log(imgSrcFront);
     return (
       <Dropzone
         onDrop={this.handleOnDrop}
