@@ -68,7 +68,6 @@ class UserData extends Component {
   fetchResult = async () => {
     let { imgFront, imgBack, filenameFront, filenameBack } = this.state;
 
-
     let headersConfigPhone = {
       "Content-Type": "application/json",
       "api-version": "1.0",
@@ -142,7 +141,6 @@ class UserData extends Component {
       await axios(configPhone);
       console.log(configPhone);
 
-
       // axios
       //   .post(`${API_URL}${FRONT_ID}`, data, {
       //     headers: {
@@ -161,11 +159,10 @@ class UserData extends Component {
       let onboarding = [respThirdParty.data.onboardingUrl];
 
       this.setState({
-        params: onboarding,
+        params: onboarding
       });
 
       if (this.state.imgFront !== "") {
-       
         fetch(
           "https://stage-api.incodesmile.com/omni/add/front-id",
           configImageFront
@@ -174,7 +171,6 @@ class UserData extends Component {
           .then(result => console.log(result))
           .catch(error => console.log("error", error));
       }
-
 
       if (this.state.imgBack !== "") {
         fetch(
@@ -252,7 +248,9 @@ class UserData extends Component {
                 onClick={this.handleOnClickBackId}
               >
                 <ImageDropBack
-                  handleImageBack={(imgBack, filenameBack) => this.handleImageBack(imgBack, filenameBack)}
+                  handleImageBack={(imgBack, filenameBack) =>
+                    this.handleImageBack(imgBack, filenameBack)
+                  }
                 />
               </div>
             </div>

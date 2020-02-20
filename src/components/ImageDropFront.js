@@ -38,7 +38,6 @@ class ImageDropFront extends Component {
       this.verifyFile(rejectedFiles);
     }
 
-
     if (files && files.length > 0) {
       console.log(files);
       const isVerified = this.verifyFile(files);
@@ -47,7 +46,6 @@ class ImageDropFront extends Component {
         // console.log(currentFile);
         const myFileItemReader = new FileReader();
 
-    
         myFileItemReader.addEventListener(
           "load",
           () => {
@@ -56,13 +54,11 @@ class ImageDropFront extends Component {
               {
                 imgSrcFront: myFileItemReader.result,
                 filenameFront: currentFile
-                
               },
               () => {
                 this.props.handleImageFront(
                   this.state.imgSrcFront,
                   this.state.filenameFront
-                 
                 );
               }
             );
