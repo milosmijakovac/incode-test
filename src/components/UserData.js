@@ -141,29 +141,9 @@ class UserData extends Component {
       await axios(configPhone);
       console.log(configPhone);
 
-      // axios
-      //   .post(`${API_URL}${FRONT_ID}`, data, {
-      //     headers: {
-      //       "Content-Type": "image/jpeg",
-      //       "api-version": "1.0",
-      //       "x-api-key": CLIENT_SPECIFIC_KEY,
-      //       "X-Incode-Hardware-Id": this.state.token
-      //     }
-      //   })
-      //   .then(res => {
-      //     // then print response status
-      //     console.log(res.statusText);
-      //   });
-
-      let respThirdParty = await axios(configFinishThirdParty);
-      let onboarding = [respThirdParty.data.onboardingUrl];
-
-      this.setState({
-        params: onboarding
-      });
 
       if (this.state.imgFront !== "") {
-        fetch(
+      await fetch(
           "https://stage-api.incodesmile.com/omni/add/front-id",
           configImageFront
         )
@@ -173,7 +153,7 @@ class UserData extends Component {
       }
 
       if (this.state.imgBack !== "") {
-        fetch(
+        await fetch(
           "https://stage-api.incodesmile.com/omni/add/back-id",
           configImageBack
         )
@@ -181,6 +161,14 @@ class UserData extends Component {
           .then(result => console.log(result))
           .catch(error => console.log("error", error));
       }
+
+      let respThirdParty = await axios(configFinishThirdParty);
+      let onboarding = [respThirdParty.data.onboardingUrl];
+
+      this.setState({
+        params: onboarding
+      });
+
 
       let respNotifySms = await axios(configNotifySendSms);
       console.log(respNotifySms);

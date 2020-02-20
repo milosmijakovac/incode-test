@@ -49,6 +49,7 @@ class ImageDropFront extends Component {
         myFileItemReader.addEventListener(
           "load",
           () => {
+            
             // let filename = myFileItemReader.filename = files[0].name
             this.setState(
               {
