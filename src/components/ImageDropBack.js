@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component } from "react";
 import Dropzone from "react-dropzone";
 
 const imageMaxSize = 1000000000;
@@ -8,10 +8,10 @@ const acceptedFileTypesArray = acceptedFileTypes.split(",").map(item => {
   return item.trim();
 });
 
-
- class ImageDropBack extends Component {
+class ImageDropBack extends Component {
   state = {
-    imgSrcBack: null
+    imgSrcBack: null,
+    filenameBack: null
   };
 
   verifyFile = files => {
@@ -32,8 +32,6 @@ const acceptedFileTypesArray = acceptedFileTypes.split(",").map(item => {
     }
   };
 
- 
-
   handleOnDrop = (files, rejectedFiles) => {
     if (rejectedFiles && rejectedFiles.length > 0) {
       // console.log(rejectedFiles);
@@ -48,9 +46,18 @@ const acceptedFileTypesArray = acceptedFileTypes.split(",").map(item => {
         myFileItemReader.addEventListener(
           "load",
           () => {
-            this.setState({ imgSrcBack: myFileItemReader.result },  () =>{
-              this.props.handleImageBack(this.state.imgSrcBack)
-            });
+            this.setState(
+              {
+                imgSrcBack: myFileItemReader.result,
+                filenameBack: currentFile
+              },
+              () => {
+                this.props.handleImageBack(
+                  this.state.imgSrcBack,
+                  this.state.filenameBack
+                );
+              }
+            );
           },
           false
         );
@@ -62,24 +69,23 @@ const acceptedFileTypesArray = acceptedFileTypes.split(",").map(item => {
     const { imgSrcBack } = this.state;
     return (
       <Dropzone
-      onDrop={this.handleOnDrop}
-      maxSize={imageMaxSize}
-      multiple={false}
-      accept={acceptedFileTypes}
-    >
-      {({ getRootProps, getInputProps }) => (
-        <section>
-          <div {...getRootProps()}>
-            <input {...getInputProps()} />
-            <p className="back"></p>
-            {imgSrcBack !== null ? <img src={imgSrcBack} alt="" /> : ""}
-          </div>
-        </section>
-      )}
-    </Dropzone>
-    )
+        onDrop={this.handleOnDrop}
+        maxSize={imageMaxSize}
+        multiple={false}
+        accept={acceptedFileTypes}
+      >
+        {({ getRootProps, getInputProps }) => (
+          <section>
+            <div {...getRootProps()}>
+              <input {...getInputProps()} />
+              <p className="back"></p>
+              {imgSrcBack !== null ? <img src={imgSrcBack} alt="" /> : ""}
+            </div>
+          </section>
+        )}
+      </Dropzone>
+    );
   }
 }
-
 
 export default ImageDropBack;

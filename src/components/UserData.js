@@ -22,7 +22,9 @@ class UserData extends Component {
     imgBack: "",
     token: "",
     onboarding_url: "",
-    params: []
+    params: [],
+    filenameFront: "",
+    filenameBack: ""
   };
 
   async componentDidMount() {
@@ -46,11 +48,11 @@ class UserData extends Component {
     });
   }
 
-  handleImageFront(imgSrcFromDropFront) {
-    this.setState({ imgFront: imgSrcFromDropFront });
+  handleImageFront(imgSrcFromDropFront, filenameFront) {
+    this.setState({ imgFront: imgSrcFromDropFront, filenameFront });
   }
-  handleImageBack(imgSrcFromDropBack) {
-    this.setState({ imgBack: imgSrcFromDropBack });
+  handleImageBack(imgSrcFromDropBack, filenameBack) {
+    this.setState({ imgBack: imgSrcFromDropBack, filenameBack });
   }
 
   handleOnClickFrontId = () => {
@@ -64,7 +66,8 @@ class UserData extends Component {
   };
 
   fetchResult = async () => {
-    let { imgFront, imgBack } = this.state;
+    let { imgFront, imgBack, filenameFront, filenameBack } = this.state;
+
 
     let headersConfigPhone = {
       "Content-Type": "application/json",
@@ -105,18 +108,15 @@ class UserData extends Component {
     };
 
     const configImageFront = {
-      method: "post",
+      method: "POST",
       mode: "cors",
-      url: `${API_URL}${FRONT_ID}`,
-      file: imgFront,
-
+      body: filenameFront,
       headers: headersConfigImage
     };
     const configImageBack = {
-      method: "post",
+      method: "POST",
       mode: "cors",
-      url: `${API_URL}${BACK_ID}`,
-      file: imgBack,
+      body: filenameBack,
       headers: headersConfigImage
     };
 
@@ -138,22 +138,52 @@ class UserData extends Component {
       headers: headersConfigNotifySendSms
     };
 
-    // let respPhone  = await axios(configPhone)
     try {
       await axios(configPhone);
+      console.log(configPhone);
+
+
+      // axios
+      //   .post(`${API_URL}${FRONT_ID}`, data, {
+      //     headers: {
+      //       "Content-Type": "image/jpeg",
+      //       "api-version": "1.0",
+      //       "x-api-key": CLIENT_SPECIFIC_KEY,
+      //       "X-Incode-Hardware-Id": this.state.token
+      //     }
+      //   })
+      //   .then(res => {
+      //     // then print response status
+      //     console.log(res.statusText);
+      //   });
+
       let respThirdParty = await axios(configFinishThirdParty);
       let onboarding = [respThirdParty.data.onboardingUrl];
 
       this.setState({
-        params: onboarding
+        params: onboarding,
       });
 
-      if(this.state.imgFront !== "") {
-        await axios(configImageFront);
+      if (this.state.imgFront !== "") {
+       
+        fetch(
+          "https://stage-api.incodesmile.com/omni/add/front-id",
+          configImageFront
+        )
+          .then(response => response.text())
+          .then(result => console.log(result))
+          .catch(error => console.log("error", error));
       }
 
-      if(this.state.imgBack !== "") {
-        await axios(configImageBack);
+
+      if (this.state.imgBack !== "") {
+        fetch(
+          "https://stage-api.incodesmile.com/omni/add/back-id",
+          configImageBack
+        )
+          .then(response => response.text())
+          .then(result => console.log(result))
+          .catch(error => console.log("error", error));
       }
 
       let respNotifySms = await axios(configNotifySendSms);
@@ -211,7 +241,9 @@ class UserData extends Component {
                 onClick={this.handleOnClickFrontId}
               >
                 <ImageDropFront
-                  handleImageFront={imgFront => this.handleImageFront(imgFront)}
+                  handleImageFront={(imgFront, filenameFront) =>
+                    this.handleImageFront(imgFront, filenameFront)
+                  }
                 />
               </div>
               <div
@@ -220,7 +252,7 @@ class UserData extends Component {
                 onClick={this.handleOnClickBackId}
               >
                 <ImageDropBack
-                  handleImageBack={imgBack => this.handleImageBack(imgBack)}
+                  handleImageBack={(imgBack, filenameBack) => this.handleImageBack(imgBack, filenameBack)}
                 />
               </div>
             </div>

@@ -10,7 +10,8 @@ const acceptedFileTypesArray = acceptedFileTypes.split(",").map(item => {
 
 class ImageDropFront extends Component {
   state = {
-    imgSrcFront: null
+    imgSrcFront: null,
+    filenameFront: null
   };
 
   verifyFile = files => {
@@ -37,17 +38,34 @@ class ImageDropFront extends Component {
       this.verifyFile(rejectedFiles);
     }
 
+
     if (files && files.length > 0) {
+      console.log(files);
       const isVerified = this.verifyFile(files);
       if (isVerified) {
         const currentFile = files[0];
+        // console.log(currentFile);
         const myFileItemReader = new FileReader();
+
+    
         myFileItemReader.addEventListener(
           "load",
           () => {
-            this.setState({ imgSrcFront: myFileItemReader.result }, () => {
-              this.props.handleImageFront(this.state.imgSrcFront);
-            });
+            // let filename = myFileItemReader.filename = files[0].name
+            this.setState(
+              {
+                imgSrcFront: myFileItemReader.result,
+                filenameFront: currentFile
+                
+              },
+              () => {
+                this.props.handleImageFront(
+                  this.state.imgSrcFront,
+                  this.state.filenameFront
+                 
+                );
+              }
+            );
           },
           false
         );
@@ -55,6 +73,7 @@ class ImageDropFront extends Component {
       }
     }
   };
+
   render() {
     const { imgSrcFront } = this.state;
     // console.log(imgSrcFront);
@@ -66,6 +85,7 @@ class ImageDropFront extends Component {
         accept={acceptedFileTypes}
       >
         {({ getRootProps, getInputProps }) => (
+          // console.log(getRootProps, getInputProps)
           <section>
             <div {...getRootProps()}>
               <input {...getInputProps()} />
